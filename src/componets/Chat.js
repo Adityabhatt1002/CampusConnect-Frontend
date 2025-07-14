@@ -3,7 +3,18 @@ import io from "socket.io-client";
 import axios from "axios";
 import { useSelector } from "react-redux";
 import FileUploadButton from "./Docs";
-const socket = io(process.env.REACT_APP_API_URL, { withCredentials: true });
+
+const SOCKET_URL =
+  process.env.NODE_ENV === "production"
+    ? "https://campusconnect-backend.onrender.com"
+    : "http://localhost:5000";
+
+
+const socket = io(SOCKET_URL,
+   { withCredentials: true ,
+  transports: ["websocket"],
+  secure: true,
+});
 
 const ChatPage = ({ group }) => {
   const [uploading, setUploading] = useState(false);
